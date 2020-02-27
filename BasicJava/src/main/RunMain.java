@@ -20,14 +20,32 @@ public class RunMain {
 		String[] words1 = {"how","are"};
 		String[] words2 = {"you","doing"};
 		int[] array = {1, 5, 3, 19, 18, 25};//{11,2,3,4,55};
-		int arrtoBin[] = {4, 8, 10, 12, 14, 20, 22}; 
+		int arrtoBin[] = {4, 8, 10, 12, 14, 20, 22, 25, 26, 27, 28, 30, 31, 32}; 
 		
+//Palindrome
+		
+		System.out.println("Is Palindrome "+isPalindrome("Kayak"));
+//Binary search
+		System.out.println(binarySearch(arrtoBin, 12));
 		
 //Sort characters in a String		
 		System.out.println(sortCharInString("because"));
 		
 //IsPermutation
-		System.out.println("Is Permutation "+checkPermutation("bec","because"));
+		System.out.println("Is a Permutation "+checkPermutation("ausebec","because"));
+//Is Substring
+		System.out.println("Is a substring "+isSubstring("caus","because"));
+		
+//LeftRotation 
+		System.out.println(leftRotation("madhu", 5));
+		
+//LeftRotation times
+		String[] arr = new String[5];
+		arr = leftRotationTimes("madhu", 5);
+		
+		for(String w:arr) {
+			System.out.print(w+" ");
+		}
 		
 //minimum difference in an array		
 		//System.out.println(minDiff(array));
@@ -71,17 +89,76 @@ public class RunMain {
 		}*/
 		
 	}
+
+//Left rotation --> madhu => dhuma
 	
+	public static String leftRotation(String word, int pl) {
+		String ret = "";
+		ret = word.substring(pl)+word.substring(0, pl);
+		return ret;
+	}
+	
+//Left Rotation number of times
+	public static String[] leftRotationTimes(String word, int times) {
+		String[] retArr = new String[times];
+		for(int i=0; i<times; i++) {
+			retArr[i] = word.substring(i+1)+word.substring(0,i+1);
+			//System.out.println(retArr[i]);
+		}
+		
+		return retArr;
+	}
+	
+	
+//Palindrome
+	public static boolean isPalindrome(String word1) {
+		StringBuilder word = new StringBuilder(word1.toLowerCase());
+		try
+		{
+			for(int i=0; i<= (word.length()-1)/2; i++)
+			{	
+				//System.out.println(Character.isUpperCase(word1.charAt(i)) +" "+word1.charAt(word1.length()-1-i));
+				if (word.charAt(i) != word1.charAt(word.length()-1-i))
+					return false;
+			}
+			return true;
+		}catch(Exception e)
+		{
+			System.out.println("Error"+e);
+			return false;
+		}
+	}
+	
+	
+//BinarySearch
+	
+	public static int binarySearch(int[] arr, int key) {
+		int low = 0;
+		int high = arr.length;
+		int mid =0;
+		
+		while(high >= low) {
+			mid = (low + high)/2;
+			System.out.println("mid value "+mid);
+			if (key < arr[mid]) 
+				high = mid - 1;
+			else if (key > arr[mid])	
+				low = mid + 1;
+			else if (arr[mid] == key)
+				return mid;
+				
+		}
+		
+		return -1;
+	}
 	
 //Check for Permutation
 	
 	public static boolean checkPermutation(String source, String dest) {
-		int sourceLength = source.length();
-		int destLength = dest.length();
 		
 		if (source.length() == dest.length())
 			return sortCharInString(source).equalsIgnoreCase(sortCharInString(dest));
-		else
+		/*else
 		{
 			String rsource = sourceLength > destLength? source:dest;//dest=because
 			String rdest = sourceLength < destLength?source:dest;//source = bec
@@ -93,9 +170,35 @@ public class RunMain {
 				//return rsource.equalsIgnoreCase(rdest.substring(0, rsource.length()));
 			else
 				return rdest.equalsIgnoreCase(rsource.substring(rsource.indexOf(rdest.charAt(0)),rsource.indexOf(rdest.charAt(0))+rdest.length()));
-		}	
-			
+		}*/	
+		return false;	
 	}
+	
+	//Check for Substring
+	
+	public static boolean isSubstring(String source, String dest) {
+		int sourceLength = source.length();
+		int destLength = dest.length();
+		
+		if (source.length() == dest.length()) {
+			char[] arrSource = source.toCharArray();
+			char[] arrDest = dest.toCharArray();
+			
+			return String.valueOf(arrSource).equalsIgnoreCase(String.valueOf(arrDest));
+		}
+		
+		String rsource = sourceLength > destLength? source:dest;//dest=because
+		String rdest = sourceLength < destLength?source:dest;//source = bec
+	
+		System.out.println("Rearranged source "+rsource);
+		System.out.println("Rearranged dest "+rdest);
+		if (source.charAt(0) == dest.charAt(0))
+			return rdest.equalsIgnoreCase(rsource.substring(0, rdest.length()));
+			//return rsource.equalsIgnoreCase(rdest.substring(0, rsource.length()));
+		else
+			return rdest.equalsIgnoreCase(rsource.substring(rsource.indexOf(rdest.charAt(0)),rsource.indexOf(rdest.charAt(0))+rdest.length()));
+	
+	}	
 	
 	
 //Sort charaters in a string
